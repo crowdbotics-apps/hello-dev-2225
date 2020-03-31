@@ -8,12 +8,12 @@ from django.db import models
 
 class CustomText(models.Model):
     title = models.CharField(max_length=150,)
-    test = models.CharField(max_length=256, null=True, blank=True,)
+    test = models.CharField(null=True, blank=True, max_length=256,)
     app = models.ForeignKey(
         "users.User",
-        on_delete=models.CASCADE,
         null=True,
         blank=True,
+        on_delete=models.CASCADE,
         related_name="customtext_app",
     )
 
@@ -31,6 +31,9 @@ class CustomText(models.Model):
 
 class HomePage(models.Model):
     body = models.TextField()
+    new = models.ManyToManyField(
+        "home.CustomText", blank=True, related_name="homepage_new",
+    )
 
     @property
     def api(self):
